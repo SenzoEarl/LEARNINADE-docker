@@ -6,6 +6,4 @@ requests
 django-crispy-forms
 redisboard
 hypercorn
-
-
-
+gunicorn
