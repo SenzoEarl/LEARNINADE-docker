@@ -1,0 +1,66 @@
+{% extends 'extends/base.html' %}
+{% load cache %}
+
+
+{% block content %}
+    <section>
+        <div class="border-left border-left-2">
+            <hgroup>
+                <h2>Course: <strong>{{ module.course.title }}</strong></h2>
+                <h3>Subject:
+                    <a href="{% url 'edufy:course_list_subject' module.course.subject.slug %}">
+                        {{ module.course.subject }}
+                    </a>
+                </h3>
+                <p> {{ module.course.overview }}</p>
+            </hgroup>
+        </div>
+        <hgroup>
+            <h3>Modules in course:</h3>
+            <ul class="list-group list-group-flush">
+                {% for m in object.modules.all %}
+                    <li data-id="{{ m.id }}" class="list-group-item {% if m == module %}selected list-group-item-success{% endif %}">
+                        <a href="{% url 'student_course_detail_module' object.id m.id %}" class="stretched-link">
+                            Module
+                            <span class="order">{{ m.order }}</span>
+                            <br>{{ m.title }}
+                        </a>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item list-group-item-danger">No modules yet</li>
+                {% endfor %}
+            </ul>
+        </hgroup>
+        <a href="{% url 'chat:course_chat_room' object.id %}" class="btn btn-outline-success m-2 p-1">
+            Chatroom
+        </a>
+        <article>
+            <h3>Module {{ module.order }}: {{ module.title }}</h3>
+            <h3 class="rounded ">Contents</h3>
+            {% cache 600 module_contents module %}
+                {% for content in module.contents.all %}
+                    {% with item=content.item %}
+                        <div class="card p-3 m-3">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <strong>{{ item.title }}</strong>
+                                </h5>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    Updated:
+                                    {{ item.updated|date }}
+                                </h6>
+                                <p class="card-text">
+                                <div class="d-flex border border-left-0 p-3 rounded bg-light justify-content-center">
+                                    {{ item.render }}
+                                </div>
+                                </p>
+                            </div>
+                        </div>
+                    {% endwith %}
+                {% empty %}
+                    <p class="text-center text-danger">No content available yet</p>
+                {% endfor %}
+            {% endcache %}
+        </article>
+    </section>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'extends/base.html' %}
+
+{% block content %}
+    <div class="card">
+        <h5 class="card-header">{{ object.title }}</h5>
+        <div class="card-body">
+            <h5 class="card-title">Overview</h5>
+            <p class="card-text">
+                {% with subject=object.subject %}
+                    <div class="module">
+                        <p>Subject:
+                            <a href="{% url 'edufy:course_list_subject' subject.slug %}">
+                                {{ subject.title }}<br>
+                            </a>
+                            Instructor: {{ object.owner.get_full_name }}<br>
+                            {{ object.modules.count }} modules in total in this course<br>
+                        </p>
+                        {{ object.overview | linebreaks }}
+                        {% if request.user.is_authenticated %}
+                            <form action="{% url 'student_enroll_course' %}" method="post">
+                                {{ enroll_form }}
+                                {% csrf_token %}
+                                <input type="submit" value="Enroll now">
+                            </form>
+                            <a class="btn btn-secondary" href="{% url 'chat:course_chat_room' course.id %}">Chatroom</a>
+                        {% else %}
+                            <a href="{% url 'student_registration' %}" class="button">
+                                Register to enroll</a>
+                        {% endif %}
+                    </div>
+                {% endwith %}
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block left %}
+
+{% endblock %}

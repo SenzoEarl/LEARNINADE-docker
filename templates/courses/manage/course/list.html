@@ -1,0 +1,61 @@
+{% extends 'extends/base.html' %}
+
+{% block content %}
+    <section>
+        <div class="d-flex justify-content-evenly flex-wrap justify-content-around">
+            {% for course in object_list %}
+                <div class="card p-3 m-3" style="width: 25rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <strong>{{ course.title }}</strong>
+                        </h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            <i class="fa-sharp fa-solid fa-person-chalkboard"></i>&nbsp;
+                            {% if course.owner.get_full_name %}
+                                {{ course.owner.get_full_name|capfirst }}
+                            {% else %}
+                                {{ course.owner.get_username|capfirst }}
+                            {% endif %}<br>
+                            <i class="fa-sharp fa-solid fa-bars"></i>&ensp;
+                            <a href="{% url 'edufy:course_list_subject' course.subject.slug %}">{{ course.subject }}</a>
+
+                        </h6>
+                        <p class="card-text">
+                        <div class="border border-left-0 p-3 rounded bg-light">
+                            {{ course.overview }}<br>
+                        </div>
+                        </p>
+                        <div class="border-left">
+                            <a href="{% url 'edufy:course_edit' course.id %}"
+                               class="card-link btn btn-sm btn-outline-secondary m-1">Edit Course</a>
+                            <a href="{% url 'edufy:course_delete' course.id %}"
+                               class="card-link btn btn-sm btn-outline-danger m-1">Delete Course</a><br>
+                            <a href="{% url 'edufy:course_module_update' course.id %}"
+                               class="card-link btn btn-sm btn-outline-secondary m-1">Edit
+                                Modules</a><br>
+                            {% if course.modules.count > 0 %}
+                                <a class="card-link btn btn-sm btn-outline-primary m-1"
+                                   href="{% url 'edufy:module_content_list' course.modules.first.id %}">
+                                    Manage contents
+                                </a>
+                            {% endif %}
+                            <a href="{% url 'chat:course_chat_room' course.id %}"
+                               class="card-link btn btn-sm btn-outline-success m-1">Chatroom
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div>
+                    <hgroup>
+                        <h3 class="text-danger">No courses found yet</h3>
+                        <a href="{% url 'edufy:course_create' %}"
+                        class="btn btn-success">
+                            New Course
+                        </a>
+                    </hgroup>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

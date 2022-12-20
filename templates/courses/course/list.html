@@ -1,0 +1,67 @@
+{% extends 'extends/base.html' %}
+
+{% block content %}
+    <section>
+        <div class="d-flex justify-content-evenly flex-wrap justify-content-around">
+            {% for course in courses %}
+                <div class="card p-3 m-3" style="width: 25rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <strong>{{ course.title }}</strong>
+                        </h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            <i class="fa-sharp fa-solid fa-person-chalkboard"></i>&nbsp;
+                            {% if course.owner.get_full_name %}
+                                {{ course.owner.get_full_name|capfirst }}
+                            {% else %}
+                                {{ course.owner.get_username|capfirst }}
+                            {% endif %}<br>
+                            <i class="fa-sharp fa-solid fa-bars"></i>&ensp;
+                            <a href="{% url 'edufy:course_list_subject' course.subject.slug %}">{{ course.subject }}</a>
+
+                        </h6>
+                        <p class="card-text">
+                        <div class="border border-left-0 p-3 rounded bg-light">
+                            {{ course.overview }}<br>
+                        </div>
+                        <div class="border border-left-0 p-3 mt-2 rounded">
+                            Number of modules: {{ course.total_modules }}
+                        </div>
+
+                        </p>
+                        <div class="border-left">
+                            {% if course.modules.count > 0 %}
+                                {% if request.user.is_authenticated %}
+                                    <form action="{% url 'student_enroll_course' %}" method="post">
+                                        {{ enroll_form }}
+                                        {% csrf_token %}
+                                        <input type="submit" class="card-link btn btn-sm btn-outline-success m-1"
+                                               value="Enroll now">
+                                    </form>
+                                    <a class="card-link btn btn-sm btn-outline-success m-1"
+                                       href="{% url 'student_course_detail' course.id %}">Enter Class</a>
+                                    <a class="card-link btn btn-sm btn-outline-success m-1"
+                                       href="{% url 'chat:course_chat_room' course.id %}">Chatroom</a>
+                                {% else %}
+                                    <a href="{% url 'student_registration' %}" class="button">
+                                        Register to enroll</a>
+                                {% endif %}
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div>
+                    <hgroup>
+                        <h3 class="text-danger">No courses found yet</h3>
+                        <a href="{% url 'edufy:course_create' %}"
+                        class="btn btn-success">
+                            New Course
+                        </a>
+                    </hgroup>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

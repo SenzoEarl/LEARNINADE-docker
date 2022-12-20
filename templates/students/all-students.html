@@ -1,0 +1,23 @@
+{% extends 'extends/base.html' %}
+
+{% block content %}
+    <h1>Students</h1>
+    <p>All students registered at our school</p>
+    <ol>
+        {% for student in object_list %}
+            <li><a href="#">{{ subject.title }}</a></li>
+        {% empty %}
+            <h1>Student no found</h1>
+            <a href="{% url 'student_registration' %}" class="badge badge-primary p-4 m-4">Student Registration</a>
+        {% endfor %}
+    </ol>
+{% endblock %}
+
+{% block right %}
+    <a href="{% url 'student_registration' %}" class="badge badge-primary p-4 m-4">Student Registration</a>
+{% endblock %}
+
+
+{% block left %}
+    <button class="badge badge-primary p-4 m-4" onclick="history.back()">Go Back</button>
+{% endblock %}

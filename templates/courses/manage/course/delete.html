@@ -1,0 +1,38 @@
+{% extends 'extends/base.html' %}
+
+{% block content %}
+    <section id="delete">
+        <div class="card p-3 m-3 pr-3 border border-5 border-danger rounded">
+            <div class="card-body">
+                <h5 class="card-title">
+                    Delete course: <strong><em>{{ object.title }}</em></strong>
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted">
+                    <i class="fa-sharp fa-solid fa-person-chalkboard"></i>&nbsp;
+                    {% if course.owner.get_full_name %}
+                        {{ course.owner.get_full_name|capfirst }}
+                    {% else %}
+                        {{ course.owner.get_username|capfirst }}
+                    {% endif %}<br>
+                    <i class="fa-sharp fa-solid fa-bars"></i>&ensp;
+                    {{ course.subject }}
+                </h6>
+
+                <div class="border-left">
+                    <form>
+                        <fieldset>
+                            <legend class="text-danger">Confirm delete</legend>
+                            {% csrf_token %}
+                            <p class="form-text">
+                                Are you one hundred percent sure you want to delete??<br>
+                                <strong><em>{{ object.title }}</em></strong>
+                                 will be gone forever, if you do.
+                            </p>
+                            <input class="btn btn-danger" type="submit" value="Delete">
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

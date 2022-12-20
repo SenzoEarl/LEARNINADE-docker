@@ -1,0 +1,104 @@
+{% extends 'extends/base.html' %}
+
+{% block content %}
+    <section>
+        <div class="row">
+            <div class="col-md-3">
+                <h1 class="display-5 fw-bold rounded-5 border-primary">
+                    <i class="fa-solid fa-user fa-5x"></i>
+                </h1>
+            </div>
+            <div class="col-md-9 fs-4">
+                <h3>{{ user }}'s profile</h3>
+                <p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+
+                        {% if user.get_full_name %}
+                            {{ user.get_full_name }}
+                        {% else %}
+                            {{ user.get_username }}
+                        {% endif %}
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        {% if user.email %}
+                            <a href="mail:to{{ user.email }}">
+                                {{ user.email }}
+                            </a>
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <a href="{% url 'student_course_list' %}">My Courses</a>
+
+                    </li>
+
+
+                </ul>
+                </p>
+            </div>
+        </div>
+    </section>
+    <section class="m-3">
+        <div class="row align-items-md-stretch">
+            <div class="col-md-6">
+                <div class="h-100 p-5 text-bg-dark rounded-3">
+                    <article>
+                        <h2>
+                            <i class="fa-solid fa-bars"></i>
+                            About
+                        </h2>
+                        <p>
+                            An online education system
+                        </p>
+                    </article>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="h-100 p-5 bg-light border rounded-3">
+                    <section>
+                        <hgroup>
+                            <h3>
+                                <i class="fa-solid fa-book"></i>
+                                Available Courses
+                            </h3>
+                            <p>
+                            <ul class="list-group  list-group-flush">
+                                {% for course in courses %}
+                                    {% with subject=course.subject %}
+                                        <li class="list-group-item">
+                                            <details>
+                                                <summary>
+
+                                                    Module:
+                                                    <a href="{% url 'edufy:course_detail' course.slug %}">
+                                                        {{ course.title }}
+                                                    </a><br>
+                                                </summary>
+
+                                                <p>
+                                                    Subject: <a
+                                                        href="{% url 'edufy:course_list_subject' subject.slug %}">{{ subject }}</a><br>
+                                                    {{ course.total_modules }} module.<br>
+                                                    Instructor: {{ course.owner.get_full_name }}
+                                                </p>
+                                            </details>
+                                        </li>
+
+                                    {% endwith %}
+                                {% empty %}
+                                    <p>No courses found</p>
+                                {% endfor %}
+                            </ul>
+                            </p>
+                        </hgroup>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

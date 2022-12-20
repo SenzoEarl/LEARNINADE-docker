@@ -1,0 +1,166 @@
+{% extends 'extends/base.html' %}
+{% load edufy %}
+
+{% block content %}
+    <section>
+        {% with course=module.course %}
+            <hgroup>
+                <h1>Course: {{ course.title }}</h1>
+                <h2>Subject:
+                    <a href="{% url 'edufy:course_list_subject' course.subject.slug %}"></a>
+                    {{ course.subject }}
+                </h2>
+                <h3>
+                    Creator:
+                    {% if course.owner.get_full_name %}
+                        {{ course.owner.get_full_name }}
+                    {% else %}
+                        {{ course.owner.get_username }}
+                    {% endif %}
+                </h3>
+                <h3>Created: {{ course.created }}</h3>
+                <p>Overview: <br>{{ course.overview }}</p>
+            </hgroup>
+
+            <hgroup>
+                <h4>Modules:</h4>
+                <a href="{% url 'edufy:course_module_update' course.id %}" class="btn btn-info mb-1">
+                    Edit modules
+                </a>
+                <ol class="list-group list-group-flush list-group-numbered">
+                    {% for m in course.modules.all %}
+                        <li class="list-group-item" data-id="{{ m.id }}"
+                            {% if m == module %}class="selected"{% endif %}>
+                            <a href="{% url 'edufy:module_content_list' m.id %}">
+                        <span>
+                            Module
+                            <span class="order">
+                            {{ m.order }}:
+                        </span>
+                        </span>{{ m.title }}
+                            </a>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item list-group-item-danger">No modules yet</li>
+                    {% endfor %}
+                </ol>
+            </hgroup>
+
+            <hgroup class="rounded p-3 mt-1" id="blue-bg">
+                <h4>Contents for <strong><em>{{ course.title }}</em></strong></h4>
+                <h5>Module {{ module.order }}: {{ module.title }}</h5>
+                {% for content in module.contents.all %}
+                    {% with item=content.item %}
+                        <div class="d-flex bg-light border border-secondary rounded border-3" style="min-height: 10em">
+
+                            <div class="card w-100 text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title text-info">
+
+                                        <strong><em>{{ item }}</em></strong>
+                                    </h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">{{ item|model_name }}</h6>
+                                    <p class="card-text">
+                                        {% if item|model_name == 'text' %}
+                                            {{ item.content }}
+                                        {% elif item|model_name == 'video' %}
+                                            <iframe width="560" height="315"
+                                                    src="{{ item.url }}"
+                                                    title="YouTube video player">
+                                            </iframe>
+                                        {% elif item|model_name == 'file' %}
+                                            {{ item.file.url }}
+{#                                            <embed type="application/pdf" src="{{ item.file.url }}"#}
+{#                                                   title="{{ item.file }}" width="560">#}
+
+                                        {% elif item|model_name == 'image' %}
+                                            <img src="/media/{{ item.file }}" alt="{{ item.file }}"
+                                                 class="border border-2 rounded p-2 m-2" style="height: 25em;">
+                                        {% endif %}
+                                    </p>
+                                    <div class="d-inline-flex p-2 m-2">
+                                        <a href="{% url 'edufy:module_content_update' module.id item|model_name item.id %}"
+                                           class="btn btn-info btn-sm card-link m-2">
+                                            Edit
+                                        </a>
+                                        <form action="{% url 'edufy:module_content_delete' content.id %}" method="post">
+                                            <input type="submit" value="Delete"
+                                                   class="btn btn-danger btn-sm card-link m-2">
+                                            {% csrf_token %}
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endwith %}
+                {% empty %}
+                    <p class="text-danger">This module has no contents yet</p>
+                {% endfor %}
+
+                <div class="text-white">
+                    <ul class="content-types list-group list-group-flush">
+                        <li class="list-group-item list-group-item-primary">
+                            <a href="{% url 'edufy:module_content_create' module.id "text" %}">Add Text</a>
+                        </li>
+                        <li class="list-group-item list-group-item-primary"><a
+                                href="{% url 'edufy:module_content_create' module.id "image" %}">Add Image</a></li>
+                        <li class="list-group-item list-group-item-primary"><a
+                                href="{% url 'edufy:module_content_create' module.id "video" %}">Add Video</a></li>
+                        <li class="list-group-item list-group-item-primary"><a
+                                href="{% url 'edufy:module_content_create' module.id "file" %}">Add File</a></li>
+                    </ul>
+                </div>
+            </hgroup>
+        {% endwith %}
+    </section>
+
+{% endblock %}
+
+{% block include_script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5sortable/0.13.3/
+    html5sortable.min.js"></script>
+{% endblock %}
+
+{% block domready %}
+
+    var options = {
+    method: 'POST',
+    mode: 'same-origin'
+    }
+    const moduleOrderUrl = "{% url 'edufy:module_order' %}"
+
+    sortable('#modules', {
+    forcePlaceholderSize: true,
+    placeholderClass: 'placeholder'
+    })[0].addEventListener('sortupdate', function (e) {
+    modulesOrder = {};
+    var modules = document.querySelectorAll('#modules li');
+    modules.forEach(function (module, index) {
+    {# update module index #}
+    modulesOrder[module.dataset.id] = index;
+    {# update index in HTML element #}
+    module.querySelector('.order').innerHTML = index + 1;
+    {# add new order to the HTTP request options #}
+    options['body'] = JSON.stringify(modulesOrder);
+    {# send HTTP request #}
+    fetch(moduleOrderUrl, options)
+    });
+    });
+
+    const contentOrderUrl = "{% url 'edufy:content_order' %}"
+
+    sortable('#module-contents', {
+    forcePlaceholderSize: true,
+    placeholderClass: 'placeholder'
+    })[0].addEventListener('sortupdate', function (e) {
+    contentOrder = {};
+    var contents = document.querySelectorAll('#module-contents div');
+    contents.forEach(function (content, index) {
+    contentOrder[content.dataset.id] = index;
+    options['body'] = JSON.stringify(contentOrder);
+    fetch(contentOrderUrl, options)
+    });
+    });
+
+
+{% endblock %}

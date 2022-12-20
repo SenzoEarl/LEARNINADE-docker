@@ -1,0 +1,29 @@
+{% extends 'extends/base.html' %}
+
+{% block content %}
+    <section>
+        <article>
+            <hgroup>
+                <h1>Subjects</h1>
+                <p>Subjects available in our school</p>
+                <ol class="list-group list-group-flush list-group-numbered">
+                    {% for subject in subjects %}
+                        <li class="list-group-item">
+                            <a href="{% url 'edufy:course_list_subject' subject.slug %}">
+                                {{ subject.title }}
+                            </a><br>
+                            <span>
+                                {{ subject.total_courses }} course{{ subject.total_courses|pluralize }}
+                            </span>
+                        </li>
+                    {% empty %}
+                        <div class="p-3 m-3 bg-light">
+                            <h3 class="text-danger">There are currently no subjects available</h3>
+                        </div>
+                    {% endfor %}
+                </ol>
+            </hgroup>
+        </article>
+    </section>
+{% endblock %}
+

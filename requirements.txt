@@ -1,0 +1,11 @@
+Django
+djangorestframework
+django-braces
+channels
+requests
+django-crispy-forms
+redisboard
+hypercorn
+
+
+

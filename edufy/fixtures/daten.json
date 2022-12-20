@@ -1,0 +1,42 @@
+[
+{
+  "model": "edufy.subject",
+  "pk": 1,
+  "fields": {
+    "title": "Home  Language",
+    "slug": "home-language"
+  }
+},
+{
+  "model": "edufy.subject",
+  "pk": 2,
+  "fields": {
+    "title": "Mathematics",
+    "slug": "mathematics"
+  }
+},
+{
+  "model": "edufy.subject",
+  "pk": 3,
+  "fields": {
+    "title": "First Additional Language",
+    "slug": "first-additional-language"
+  }
+},
+{
+  "model": "edufy.subject",
+  "pk": 4,
+  "fields": {
+    "title": "Life Skills",
+    "slug": "life-skills"
+  }
+},
+{
+  "model": "edufy.subject",
+  "pk": 5,
+  "fields": {
+    "title": "Programing",
+    "slug": "programing"
+  }
+}
+]

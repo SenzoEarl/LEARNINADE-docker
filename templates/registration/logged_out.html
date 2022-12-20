@@ -1,0 +1,19 @@
+{% extends 'extends/base.html' %}
+
+{% block content %}
+    <article>
+        <hgroup class="text-center justify-content-center align-center">
+            <h3 class="p-2 m-2">Logged out. :(</h3>
+            <p class="text-danger p-2 m-2">
+                Hope we see you soon...<br>
+            </p>
+            <span>
+                    <a class="btn btn-success p-2"
+                       role="button"
+                       href="{% url 'login' %}">
+                        Ya'll come back now ya hear?
+                    </a>
+                </span>
+        </hgroup>
+    </article>
+{% endblock %}

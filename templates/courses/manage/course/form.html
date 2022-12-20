@@ -1,0 +1,22 @@
+{% extends 'extends/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <article>
+        <h3>Course information:</h3>
+        <form method="post">
+            <fieldset>
+                <legend>
+                    {% if object %}
+                        Edit course: <strong><em>{{ object.title }}</em></strong>
+                    {% else %}
+                        Create new course
+                    {% endif %}
+                </legend>
+                {% csrf_token %}
+                {{ form | crispy }}
+                <input class="btn btn-success" type="submit" value="Save">
+            </fieldset>
+        </form>
+    </article>
+{% endblock %}

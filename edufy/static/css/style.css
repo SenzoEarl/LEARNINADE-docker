@@ -1,0 +1,48 @@
+video {
+    max-width: 100%;
+    height: auto;
+}
+
+#blue-bg {
+    background-color: rgba(57, 192, 237, 0.2);
+}
+
+
+#chat-display {
+    width: 100%;
+    overflow-y: scroll;
+    padding: 10px;
+
+}
+
+#chat-display .message {
+    background: #efefef;
+    padding: 10px 20px;
+    border-radius: 4px;
+    max-width: 50%;
+    min-width: 50%;
+    word-break: break-word;
+    display: inline;
+    float: left;
+    margin: 10px 10px 0;
+    clear: both;
+}
+
+#chat-display .message.me {
+    display: inline;
+    float: right;
+    background: rgba(57, 192, 237, 0.2);
+    color: #189136;
+}
+
+#chat-display .date {
+    color: #aaa;
+    font-style: italic;
+    font-size: 12px;
+}
+
+
+#chat-input input {
+    float: left;
+    display: inline;
+}

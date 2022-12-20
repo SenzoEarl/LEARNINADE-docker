@@ -1,0 +1,16 @@
+{% extends 'extends/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <section>
+        <h3>Hopping to be unrolled?</h3>
+        <form>
+            <fieldset>
+                <legend>Enter your details to create the account</legend>
+                {% csrf_token %}
+                {{ form | crispy }}
+                <input type="submit" value="Create Account" class="btn btn-success">
+            </fieldset>
+        </form>
+    </section>
+{% endblock %}
