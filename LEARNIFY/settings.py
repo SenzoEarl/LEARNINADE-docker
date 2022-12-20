@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'hypercorn',
     'channels',
     'crispy_bootstrap5',
+    'gunicorn',
 ]
 
 MIDDLEWARE = [
