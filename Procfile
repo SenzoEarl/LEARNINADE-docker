@@ -1,1 +1,1 @@
-web: docker run -it --rm --name redis -p 6379:6379 redis && python manage.py migrate && hypercorn LEARNIFY.wsgi
+web: python manage.py migrate && gunicorn blognificent.wsgi

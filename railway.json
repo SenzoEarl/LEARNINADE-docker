@@ -3,7 +3,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "docker run -it --rm --name redis -p 6379:6379 redis &&  hypercorn LEARNIFY.wsgi",
+    "startCommand": "docker compose up",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }

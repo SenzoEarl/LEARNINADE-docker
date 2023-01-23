@@ -10,5 +10,6 @@ urlpatterns = [
     path('course/<pk>/', cache_page(60 * 15)(StudentCourseDetailView.as_view()), name='student_course_detail'),
     path('course/<pk>/<module_id>/', cache_page(60 * 15)(StudentCourseDetailView.as_view()),
          name='student_course_detail_module'),
-
+#
+# cache_page(60 * 15)
 ]

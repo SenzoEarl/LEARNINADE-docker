@@ -1,0 +1,2 @@
+SECRET_KEY = s9d0hrzluor+p7!)zbi)g66r65%rkfefbwcmrq%uvrellv9j(i
+DJANGO_SETTINGS_MODULE=LEARNIFY.settings.production
