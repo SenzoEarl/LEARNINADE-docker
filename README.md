@@ -15,7 +15,7 @@ ___
 ![DB](/media/db-main.png)
 ___
 ### Local Server 
-1. Clone the repository [here](gh repo clone SenzoEarl/blognificent-final)
+1. Clone the repository [here](gh repo clone SenzoEarl/LEARNINADE-docker)
 2. run `pip install -r requirements.txt` to install all packages
 3. In the project directory, run `py manage.py runserver 8000 --settings=LEARNIFY.settings.local` 
 4. Open [http://localhost/](http://localhost/) in your web browser
