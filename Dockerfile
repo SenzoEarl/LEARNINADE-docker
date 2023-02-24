@@ -1,5 +1,5 @@
 # Get official python docker image
-FROM python:latest
+FROM python:3.11.0
 
 # set enviroment variables
 ENV PYTHONDONTWRITEBYTECODE=1

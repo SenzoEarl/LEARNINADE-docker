@@ -1,5 +1,5 @@
 # Learninade
-An online education syste,
+An online education system
 
 App is NOT up and running in the link below. 
 

@@ -1,6 +1,9 @@
-Django~=4.1.4
+Django
 redis
+asgiref
 channels
+Pillow
+sqlparse
 requests
 django-crispy-forms
 redisboard
@@ -18,9 +21,11 @@ psycopg2
 daphne
 crispy-bootstrap5
 django-redisboard
+channels
 channels-redis
 uwsgi
 django-embed-video
 django-debug-toolbar
 djangorestframework
 django-braces
+pymemcache
