@@ -12,7 +12,7 @@ ___
 ___
 
 ### Database: 
-![DB](/static/main.png)
+![DB](/media/db-main.png)
 ___
 ### Local Server 
 1. Clone the repository [here](gh repo clone SenzoEarl/blognificent-final)
