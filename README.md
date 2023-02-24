@@ -30,11 +30,6 @@ ___
 6. run `docker compose exec web python /code/manage.py migrate`
 7. run `docker compose exec web python /code/manage.py createsuperuser` and create user
 
-
-___
-### Files:
-1. [Use case]()
-2. [Requirements]()
 ___
 
 ### Links: 
