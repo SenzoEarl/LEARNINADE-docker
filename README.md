@@ -14,11 +14,11 @@ ___
 ### Database: 
 ![DB](/static/main.png)
 ___
-### Development Server 
+### Local Server 
 1. Clone the repository [here](gh repo clone SenzoEarl/blognificent-final)
 2. run `pip install -r requirements.txt` to install all packages
-3. In the project directory, run `py manage.py runserver 8000` 
-4. Open [http://127.0.0.1:8000/](http://127.0.0.1:8000/) in your web browser
+3. In the project directory, run `py manage.py runserver 8000 --settings=LEARNIFY.settings.local` 
+4. Open [http://localhost/](http://localhost/) in your web browser
 5. run `py manage.py createsuperuser` and create new user admin
 
 
